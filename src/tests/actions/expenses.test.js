@@ -13,7 +13,7 @@ import {
 import expenses from '../fixtures/expenses';
 import database from '../../firebase/firebase';
 
-const uid = 'this is my test uid';
+const uid = 'thisismytestuid';
 const defaultAuthState = { auth: { uid } };
 const createMockStore = configureMockStore([thunk]);
 
@@ -28,22 +28,20 @@ beforeEach((done) => {
 test('should setup remove expense action object', () => {
     const action = removeExpense({ id: '123abc' });
     expect(action).toEqual({
-        type: 'REMOVE_EXPENSE',
-        id: '123abc'
+      type: 'REMOVE_EXPENSE',
+      id: '123abc'
     });
-});
+  });
 
 test('should remove expense from firebase', (done) => {
     const store = createMockStore(defaultAuthState);
     const id = expenses[2].id;
-
     store.dispatch(startRemoveExpense({ id })).then(() => {
         const actions = store.getActions();
         expect(actions[0]).toEqual({
             type: 'REMOVE_EXPENSE',
             id
         });
-
         return database.ref(`users/${uid}/expenses/${id}`).once('value');
     }).then((snapshot) => {
         expect(snapshot.val()).toBeFalsy();
@@ -59,7 +57,7 @@ test('should setup edit expense action object', () => {
         updates: {
             note: 'New note value'
         }
-    })
+    });
 });
 
 test('should edit expenses from firebase', (done) => {
